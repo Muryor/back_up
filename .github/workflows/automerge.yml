@@ -24,12 +24,11 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v3
         
-      - name: automerge
-        uses: "pascalgn/automerge-action@v0.14.3"
-        env:
-          GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
-
-        
+#       - name: automerge
+#         uses: "pascalgn/automerge-action@v0.14.3"
+#         env:
+#           GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
+    
       - name: autopublish
         uses: actions/setup-node@v1
         with:
