@@ -21,7 +21,38 @@ jobs:
   automerge:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+        
       - name: automerge
         uses: "pascalgn/automerge-action@v0.14.3"
         env:
           GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
+
+        
+      - name: autopublish
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+          registry-url: https://registry.npmjs.org/
+      - run: |
+          npm version patch
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+          
+      - name: commit
+        id: commit
+        run: |
+          git config --global user.email ryutm@foxmail.com
+          git config --global user.name action_bot
+          git add .
+          git commit -m "update npm version"
+        continue-on-error: true
+      - name: Check on failures
+        if: steps.commit.outputs.status == 'failure'
+        run: exit 1
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
