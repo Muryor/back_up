@@ -44,7 +44,7 @@ jobs:
       - name: commit
         id: commit
         run: |
-          git config --global user.email ryutm@foxmail.com
+          git config --global user.email aisuru@foxmail.com
           git config --global user.name action_bot
           git add .
           git commit -m "update npm version"
