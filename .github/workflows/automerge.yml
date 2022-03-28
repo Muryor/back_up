@@ -47,6 +47,7 @@ jobs:
         with:
           node-version: "12.x"
           registry-url: https://registry.npmjs.org/
+          token: ${{secrets.npm_token}}
       - run: npm version patch
       - uses: JS-DevTools/npm-publish@v1
         with:
