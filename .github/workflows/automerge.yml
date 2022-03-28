@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         
       - name: merge
         uses: mtanzi/action-automerge@v1
@@ -43,29 +43,13 @@ jobs:
           target: 'main'
         continue-on-error: true
     
-      - uses: actions/setup-node@v2
-        with:
-          node-version: "12.x"
-          registry-url: https://registry.npmjs.org/
-          token: ${{secrets.NPM_TOKEN}}
-      - run: npm version patch
+      - name: 'Automated Version Bump'
+        id: version-bump
+        uses: 'phips28/gh-action-bump-version@master'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{secrets.NPM_TOKEN}}
 
           
-      - name: commit
-        id: commit
-        run: |
-          git config --global user.email aisuru@foxmail.com
-          git config --global user.name action_bot
-          git add .
-          git commit -m "update npm version"
-        continue-on-error: true
-      - name: Check on failures
-        if: steps.commit.outputs.status == 'failure'
-        run: exit 1
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
