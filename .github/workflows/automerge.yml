@@ -51,7 +51,7 @@ jobs:
       - run: npm version patch
       - uses: JS-DevTools/npm-publish@v1
         with:
-          token: ${{secrets.npm_token}}
+          token: ${{secrets.NPM_TOKEN}}
 
           
       - name: commit
